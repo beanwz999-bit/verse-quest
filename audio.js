@@ -162,21 +162,21 @@ const AudioManager = {
       const voices = window.speechSynthesis.getVoices();
       const enVoices = voices.filter(v => v.lang.startsWith('en'));
       
-      // 1. First priority: High-quality modern "Natural", "Enhanced" or "Premium" voices (best available)
+      // 1. First priority: Neural Google and Apple Siri voices (the absolute most natural sounding)
       let bestVoice = enVoices.find(v => {
         const name = v.name.toLowerCase();
-        return name.includes('natural') || name.includes('enhanced') || name.includes('premium');
+        return name.includes('google') || name.includes('siri');
       });
       
-      // 2. Second priority: High-quality Siri or Google voices
+      // 2. Second priority: Modern "Natural", "Enhanced" or "Premium" system voices
       if (!bestVoice) {
         bestVoice = enVoices.find(v => {
           const name = v.name.toLowerCase();
-          return name.includes('siri') || name.includes('google');
+          return name.includes('natural') || name.includes('enhanced') || name.includes('premium');
         });
       }
       
-      // 3. Third priority: Specific popular voice "Samantha"
+      // 3. Third priority: Specific popular voice "Samantha" (default clean iOS)
       if (!bestVoice) {
         bestVoice = enVoices.find(v => v.name.toLowerCase().includes('samantha'));
       }
