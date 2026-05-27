@@ -3,8 +3,8 @@ const AudioManager = {
   ctx: null,
   soundEnabled: true,
   speechEnabled: true,
-  speechRate: 0.85, // Friendly slow speed for kids
-  speechPitch: 1.1,  // Friendly higher-pitched tone
+  speechRate: 0.75, // Slower deliberate speed for kids
+  speechPitch: 1.0,  // Natural standard pitch (prevents robotic distortion)
   selectedVoice: null,
 
   init() {
@@ -159,11 +159,36 @@ const AudioManager = {
     if (this.selectedVoice) {
       utterance.voice = this.selectedVoice;
     } else {
-      // Find first English voice
       const voices = window.speechSynthesis.getVoices();
-      const enVoice = voices.find(v => v.lang.startsWith('en') && v.name.includes('Google') || v.name.includes('Natural')) 
-                   || voices.find(v => v.lang.startsWith('en'));
-      if (enVoice) utterance.voice = enVoice;
+      const enVoices = voices.filter(v => v.lang.startsWith('en'));
+      
+      // 1. First priority: High-quality modern "Natural", "Enhanced" or "Premium" voices (best available)
+      let bestVoice = enVoices.find(v => {
+        const name = v.name.toLowerCase();
+        return name.includes('natural') || name.includes('enhanced') || name.includes('premium');
+      });
+      
+      // 2. Second priority: High-quality Siri or Google voices
+      if (!bestVoice) {
+        bestVoice = enVoices.find(v => {
+          const name = v.name.toLowerCase();
+          return name.includes('siri') || name.includes('google');
+        });
+      }
+      
+      // 3. Third priority: Specific popular voice "Samantha"
+      if (!bestVoice) {
+        bestVoice = enVoices.find(v => v.name.toLowerCase().includes('samantha'));
+      }
+      
+      // 4. Final Fallback: First available English voice
+      if (!bestVoice && enVoices.length > 0) {
+        bestVoice = enVoices[0];
+      }
+      
+      if (bestVoice) {
+        utterance.voice = bestVoice;
+      }
     }
 
     utterance.rate = this.speechRate;
