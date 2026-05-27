@@ -1,25 +1,48 @@
 // Default library of child-friendly Bible verses grouped by theme
 const DEFAULT_VERSES = [
-  // Theme: Joy & Peace
+  // Theme: Joy & Praise
   {
     id: "joy-1",
-    ref: "Psalm 118:24",
-    text: "This is the day that the LORD has made; let us rejoice and be glad in it.",
-    theme: "Joy & Peace",
+    ref: "Philippians 4:4",
+    text: "Rejoice in the Lord always; again I will say, rejoice.",
+    theme: "Joy & Praise",
     custom: false
   },
   {
     id: "joy-2",
-    ref: "Philippians 4:4",
-    text: "Rejoice in the Lord always; again I will say, rejoice.",
-    theme: "Joy & Peace",
+    ref: "Psalm 150:6",
+    text: "Let everything that has breath praise the LORD!",
+    theme: "Joy & Praise",
     custom: false
   },
   {
     id: "joy-3",
-    ref: "Psalm 16:11",
-    text: "You make known to me the path of life; in your presence there is fullness of joy; at your right hand are pleasures forevermore.",
-    theme: "Joy & Peace",
+    ref: "Psalm 100:1",
+    text: "Make a joyful noise to the LORD, all the earth!",
+    theme: "Joy & Praise",
+    custom: false
+  },
+
+  // Theme: Love & Kindness
+  {
+    id: "love-1",
+    ref: "1 John 4:19",
+    text: "We love because he first loved us.",
+    theme: "Love & Kindness",
+    custom: false
+  },
+  {
+    id: "love-2",
+    ref: "Ephesians 4:32",
+    text: "Be kind to one another, tenderhearted, forgiving one another.",
+    theme: "Love & Kindness",
+    custom: false
+  },
+  {
+    id: "love-3",
+    ref: "John 15:12",
+    text: "Love one another as I have loved you.",
+    theme: "Love & Kindness",
     custom: false
   },
 
@@ -27,7 +50,7 @@ const DEFAULT_VERSES = [
   {
     id: "faith-1",
     ref: "Proverbs 3:5",
-    text: "Trust in the LORD with all your heart, and do not lean on your own understanding.",
+    text: "Trust in the LORD with all your heart.",
     theme: "Faith & Trust",
     custom: false
   },
@@ -40,78 +63,55 @@ const DEFAULT_VERSES = [
   },
   {
     id: "faith-3",
-    ref: "Hebrews 11:1",
-    text: "Now faith is the assurance of things hoped for, the conviction of things not seen.",
+    ref: "Proverbs 30:5",
+    text: "Every word of God proves true.",
     theme: "Faith & Trust",
-    custom: false
-  },
-
-  // Theme: Love & Kindness
-  {
-    id: "love-1",
-    ref: "Ephesians 4:32",
-    text: "Be kind to one another, tenderhearted, forgiving one another, as God in Christ forgave you.",
-    theme: "Love & Kindness",
-    custom: false
-  },
-  {
-    id: "love-2",
-    ref: "1 John 4:19",
-    text: "We love because he first loved us.",
-    theme: "Love & Kindness",
-    custom: false
-  },
-  {
-    id: "love-3",
-    ref: "John 13:34",
-    text: "A new commandment I give to you, that you love one another: just as I have loved you, you also are to love one another.",
-    theme: "Love & Kindness",
     custom: false
   },
 
   // Theme: Courage & Strength
   {
     id: "courage-1",
-    ref: "Joshua 1:9",
-    text: "Have I not commanded you? Be strong and courageous. Do not be frightened, and do not be dismayed, for the LORD your God is with you wherever you go.",
-    theme: "Courage & Strength",
-    custom: false
-  },
-  {
-    id: "courage-2",
     ref: "Philippians 4:13",
     text: "I can do all things through him who strengthens me.",
     theme: "Courage & Strength",
     custom: false
   },
   {
+    id: "courage-2",
+    ref: "Joshua 1:9",
+    text: "Be strong and courageous. Do not be frightened.",
+    theme: "Courage & Strength",
+    custom: false
+  },
+  {
     id: "courage-3",
-    ref: "Isaiah 41:10",
-    text: "Fear not, for I am with you; be not dismayed, for I am your God; I will strengthen you, I will help you, I will uphold you with my righteous right hand.",
+    ref: "Psalm 23:1",
+    text: "The LORD is my shepherd; I shall not want.",
     theme: "Courage & Strength",
     custom: false
   },
 
-  // Theme: Wisdom & Guidance
+  // Theme: Wisdom & Listening
   {
     id: "wisdom-1",
     ref: "Psalm 119:105",
     text: "Your word is a lamp to my feet and a light to my path.",
-    theme: "Wisdom",
+    theme: "Wisdom & Listening",
     custom: false
   },
   {
     id: "wisdom-2",
-    ref: "James 1:5",
-    text: "If any of you lacks wisdom, let him ask God, who gives generously to all without reproach, and it will be given him.",
-    theme: "Wisdom",
+    ref: "Ephesians 6:1",
+    text: "Children, obey your parents in the Lord, for this is right.",
+    theme: "Wisdom & Listening",
     custom: false
   },
   {
     id: "wisdom-3",
-    ref: "Proverbs 4:23",
-    text: "Keep your heart with all vigilance, for from it flow the springs of life.",
-    theme: "Wisdom",
+    ref: "Luke 11:28",
+    text: "Blessed are those who hear the word of God and keep it!",
+    theme: "Wisdom & Listening",
     custom: false
   }
 ];
