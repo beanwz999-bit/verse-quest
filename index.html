@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="description" content="VerseQuest is a fun, interactive bible verse memorization game for children. Play games like Safari Scramble, Bubble Pop, and Jungle Blanks to learn scripture.">
+  <title>VerseQuest: Scripture Safari - Bible Verse Memorization Game for Kids</title>
+  
+  <!-- Mobile & iOS Web App Capable Settings -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="VerseQuest">
+  <link rel="apple-touch-icon" href="icon.png">
+  <link rel="icon" type="image/png" href="icon.png">
+  
+  <!-- Web App Manifest -->
+  <link rel="manifest" href="manifest.json">
+  
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <!-- Full-Screen Confetti Canvas for Victory Ceremonies -->
+  <canvas id="confetti-canvas"></canvas>
+
+  <div id="app-container">
+
+    <!-- 1. WELCOME / HOME SCREEN -->
+    <main id="welcome-screen" class="screen active">
+      <div class="logo-container">
+        <h1 class="logo-title">VerseQuest</h1>
+        <div class="logo-subtitle">Scripture Safari</div>
+      </div>
+
+      <div class="mascot-intro">
+        <div class="mascot-avatar" aria-label="Mascot avatar">🦁</div>
+        <div id="welcome-mascot-speech" class="speech-bubble">
+          Let's explore God's Word together! Choose a theme and start your quest!
+        </div>
+      </div>
+
+      <div class="welcome-actions">
+        <button id="play-btn" class="btn-safari btn-green">
+          <span>🎮</span> Start Adventure!
+        </button>
+        <button id="welcome-parent-btn" class="btn-safari btn-wood" style="margin-top: 1rem; width: 100%;">
+          <span>⚙️</span> Parents' Corner
+        </button>
+      </div>
+    </main>
+
+    <!-- 2. BIBLE VERSE SELECTOR / LEVEL MAP SCREEN -->
+    <section id="map-screen" class="screen">
+      <header>
+        <button id="map-back-btn" class="btn-safari btn-wood btn-icon" aria-label="Go back">⬅️</button>
+        <h2>Select a Verse</h2>
+        <button id="map-parent-btn" class="btn-safari btn-wood btn-icon" aria-label="Parent settings">⚙️</button>
+      </header>
+
+      <!-- Trophy Banner (hidden by default, shown when all completed) -->
+      <div id="trophy-banner" class="wood-panel" style="display: none; align-items: center; justify-content: space-between; margin-bottom: 1.5rem; background: linear-gradient(135deg, var(--accent-yellow) 0%, var(--accent-orange) 100%); border-color: #c98200; border-width: 4px;">
+        <div style="display: flex; align-items: center; gap: 1rem; text-align: left;">
+          <span style="font-size: 2.5rem; animation: bounce 2s infinite; user-select: none;">🏆</span>
+          <div>
+            <div style="font-size: 1.2rem; font-weight: 700; color: #3d2814;">Safari Legend Certificate!</div>
+            <div style="font-size: 0.95rem; text-shadow: none; color: #4e351b; font-weight: 500;">You memorized all available verses!</div>
+          </div>
+        </div>
+        <button id="view-certificate-btn" class="btn-safari btn-wood" style="padding: 0.5rem 1rem; font-size: 1rem; border-width: 2px;">
+          📜 Claim Certificate
+        </button>
+      </div>
+
+      <div id="map-themes" class="theme-container">
+        <!-- Dynmically rendered theme cards from app.js -->
+      </div>
+    </section>
+
+    <!-- 3. GAME MODE SELECTION SCREEN -->
+    <section id="mode-selection-screen" class="screen">
+      <header>
+        <button id="mode-back-btn" class="btn-safari btn-wood btn-icon" aria-label="Go back to verse list">⬅️</button>
+        <div class="mode-header">
+          <h2 id="mode-verse-ref">John 3:16</h2>
+          <p id="mode-verse-text">"For God so loved the world..."</p>
+        </div>
+        <div style="width: 48px;"></div> <!-- Spacer for header layout -->
+      </header>
+
+      <div class="modes-grid">
+        <button id="mode-scramble-btn" class="mode-option-btn">
+          <span class="mode-icon" aria-hidden="true">🧩</span>
+          <div class="mode-info">
+            <h3>Safari Scramble</h3>
+            <p>Unscramble word tiles in the correct sequence!</p>
+          </div>
+        </button>
+
+        <button id="mode-bubble-btn" class="mode-option-btn">
+          <span class="mode-icon" aria-hidden="true">🫧</span>
+          <div class="mode-info">
+            <h3>Bubble Pop</h3>
+            <p>Catch and pop words floating up the river!</p>
+          </div>
+        </button>
+
+        <button id="mode-blanks-btn" class="mode-option-btn">
+          <span class="mode-icon" aria-hidden="true">✏️</span>
+          <div class="mode-info">
+            <h3>Jungle Blanks</h3>
+            <p>Fill in the missing words to complete the verse!</p>
+          </div>
+        </button>
+      </div>
+    </section>
+
+    <!-- 4. GAME PLAY ARENA SCREEN -->
+    <section id="game-arena-screen" class="screen">
+      <header class="game-top-bar">
+        <button id="game-back-btn" class="btn-safari btn-wood btn-icon" aria-label="Quit game">⬅️</button>
+        <div id="arena-verse-ref" class="verse-source">John 3:16</div>
+        <button id="game-tts-btn" class="btn-safari btn-orange btn-icon" aria-label="Listen to verse read aloud">🔊</button>
+      </header>
+
+      <!-- Main Assembled Verse Container -->
+      <div id="verse-display" class="verse-display-box">
+        <!-- Blank lines or filled words go here dynamically -->
+      </div>
+
+      <!-- Mode 1: Safari Scramble word tiles -->
+      <div id="scramble-zone" class="scramble-zone">
+        <!-- Word tiles are injected here -->
+      </div>
+
+      <!-- Mode 2: Bubble Pop river canvas -->
+      <div id="bubble-zone" class="bubble-zone" style="display: none;">
+        <div id="bubble-arena" class="bubble-arena">
+          <!-- Floating bubbles go here -->
+        </div>
+      </div>
+
+      <!-- Mode 3: Fill in the Blanks word bank -->
+      <div id="blanks-zone" class="blanks-zone" style="display: none;">
+        <div id="blanks-wordbank" class="blanks-wordbank">
+          <!-- Missing words bank goes here -->
+        </div>
+      </div>
+
+      <!-- Live Mascot Guide feedback -->
+      <div class="arena-mascot-box">
+        <div class="arena-mascot-emoji" aria-label="Leo the Lion guide">🦁</div>
+        <div id="arena-mascot-speech" class="arena-mascot-speech">
+          Let's read this verse out loud, then try to solve the game!
+        </div>
+      </div>
+    </section>
+
+    <!-- 5. VICTORY SCREEN -->
+    <section id="victory-screen" class="screen">
+      <h2 class="victory-title">Quest Mastered! 🎉</h2>
+      
+      <!-- Stars container -->
+      <div id="victory-stars-box" class="victory-stars">
+        <span>★</span><span>★</span><span>★</span>
+      </div>
+
+      <div class="glass-card victory-card">
+        <p id="victory-verse-display-text" class="victory-verse-text">"For God so loved the world..."</p>
+        <p id="victory-verse-display-ref" class="victory-verse-ref">John 3:16</p>
+      </div>
+
+      <div class="victory-actions">
+        <button id="victory-next-btn" class="btn-safari btn-green">
+          <span>🗺️</span> Level Map
+        </button>
+        <button id="victory-replay-btn" class="btn-safari btn-orange">
+          <span>🔁</span> Play Again
+        </button>
+      </div>
+    </section>
+
+    <!-- 6. PARENTS SETTINGS MODAL DIALOG -->
+    <div id="parent-modal" class="modal-overlay">
+      <div class="glass-card modal-content">
+        <div class="modal-header">
+          <h3><span>⚙️</span> Parents' Corner</h3>
+          <button id="close-modal-btn" class="btn-close" aria-label="Close modal">&times;</button>
+        </div>
+        
+        <div class="modal-body">
+          <!-- Audio Customizations -->
+          <h4>Voice &amp; Audio</h4>
+          <div class="setting-row">
+            <span class="setting-label">Sound Effects</span>
+            <label class="switch">
+              <input type="checkbox" id="sound-effects-toggle" checked>
+              <span class="slider"></span>
+            </label>
+          </div>
+          <div class="setting-row">
+            <span class="setting-label">Voice Read-Aloud (TTS)</span>
+            <label class="switch">
+              <input type="checkbox" id="voice-read-toggle" checked>
+              <span class="slider"></span>
+            </label>
+          </div>
+          <div class="form-group">
+            <label for="parent-voice-select">Read-Aloud Voice:</label>
+            <select id="parent-voice-select">
+              <option value="">Default English Voice</option>
+            </select>
+          </div>
+
+          <hr style="border: 0; border-top: 1px solid #ccc; margin: 0.5rem 0;">
+
+          <!-- Custom Verse Form -->
+          <h4>Add Custom Verse</h4>
+          <form id="parent-form">
+            <div class="form-group">
+              <label for="custom-ref">Bible Reference (e.g. Genesis 1:1)</label>
+              <input type="text" id="custom-ref" placeholder="e.g. Genesis 1:1" required>
+            </div>
+            <div class="form-group">
+              <label for="custom-text">Verse Text</label>
+              <textarea id="custom-text" rows="3" placeholder="Type the scripture text here..." required></textarea>
+            </div>
+            <div class="form-group">
+              <label for="custom-theme">Theme Category</label>
+              <select id="custom-theme">
+                <option value="Joy & Peace">Joy & Peace</option>
+                <option value="Faith & Trust">Faith & Trust</option>
+                <option value="Love & Kindness">Love & Kindness</option>
+                <option value="Courage & Strength">Courage & Strength</option>
+                <option value="Wisdom">Wisdom</option>
+                <option value="Custom" selected>Custom / Other</option>
+              </select>
+            </div>
+            <button type="submit" class="btn-safari btn-green" style="margin-top: 0.5rem; width: 100%;">
+              💾 Add to Level Map
+            </button>
+          </form>
+
+          <hr style="border: 0; border-top: 1px solid #ccc; margin: 0.5rem 0;">
+
+          <!-- System actions -->
+          <h4>Data Management</h4>
+          <button id="reset-progress-btn" class="btn-safari btn-orange" style="width: 100%;">
+            🚨 Reset All Stars Progress
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 7. SAFARI CHAMPION / CERTIFICATE MODAL DIALOG -->
+    <div id="certificate-modal" class="modal-overlay">
+      <div class="glass-card modal-content" style="max-width: 600px;">
+        <div class="modal-header">
+          <h3><span>🏆</span> Scripture Safari Champion!</h3>
+          <button id="close-certificate-btn" class="btn-close" aria-label="Close modal">&times;</button>
+        </div>
+        
+        <div class="modal-body" style="align-items: center; text-align: center;">
+          <p style="font-size: 1.1rem; margin-bottom: 1rem;">
+            Amazing! You have completed every single Bible verse challenge. You are officially a Scripture Safari Legend!
+          </p>
+
+          <!-- Input for live updating name on certificate -->
+          <div class="form-group" style="width: 100%; max-width: 320px; margin-bottom: 1.5rem;">
+            <label for="child-name-input" style="font-weight: 600;">Type your name for the certificate:</label>
+            <input type="text" id="child-name-input" value="Safari Legend" placeholder="Type your name..." maxlength="25">
+          </div>
+
+          <!-- Printable Certificate Area -->
+          <div id="certificate-print-area" class="certificate-card">
+            <div class="cert-border-inner">
+              <div class="cert-ribbon" style="user-select: none;">🏆</div>
+              <h4 class="cert-title">CERTIFICATE OF ACHIEVEMENT</h4>
+              <p class="cert-subtitle">Presented to</p>
+              <h3 id="cert-child-name" class="cert-name">Safari Legend</h3>
+              <p class="cert-body">
+                For successfully completing the <strong>VerseQuest: Scripture Safari</strong> quest,<br>
+                memorizing Bible verses, and carrying God's Word in their heart!
+              </p>
+              <div class="cert-footer">
+                <div class="cert-signature">
+                  <div class="sig-line">🦁 Leo the Lion</div>
+                  <span style="font-size: 0.8rem; color: #555;">Safari Guide</span>
+                </div>
+                <div class="cert-signature">
+                  <div class="sig-line">🦜 Pip the Parrot</div>
+                  <span style="font-size: 0.8rem; color: #555;">Safari Co-Pilot</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div style="display: flex; gap: 1rem; width: 100%; margin-top: 1.5rem;">
+            <button id="print-cert-btn" class="btn-safari btn-green" style="flex: 1;">
+              🖨️ Print Certificate
+            </button>
+            <button id="celebrate-again-btn" class="btn-safari btn-orange" style="flex: 1;">
+              🎉 Celebrate!
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Javascript Modules -->
+  <script src="verses.js"></script>
+  <script src="audio.js"></script>
+  <script src="game.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
