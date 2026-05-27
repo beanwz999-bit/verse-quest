@@ -9,6 +9,7 @@ const App = {
     this.bindEvents();
     this.showScreen('welcome-screen');
     this.preloadMascotSpeech();
+    this.checkInstallHelper();
   },
 
   // Navigate between screens
@@ -148,6 +149,11 @@ const App = {
         this.renderMapScreen();
         alert("Progress reset completed!");
       }
+    });
+
+    document.getElementById('close-helper-btn').addEventListener('click', () => {
+      document.getElementById('install-helper').style.display = 'none';
+      localStorage.setItem('vq_install_helper_dismissed', 'true');
     });
   },
 
@@ -437,6 +443,19 @@ const App = {
     setTimeout(() => {
       this.stopConfetti();
     }, 6000);
+  },
+
+  checkInstallHelper() {
+    const isStandalone = window.navigator.standalone === true || window.matchMedia('(display-mode: standalone)').matches;
+    const dismissed = localStorage.getItem('vq_install_helper_dismissed') === 'true';
+    const helper = document.getElementById('install-helper');
+    
+    if (!isStandalone && !dismissed && helper) {
+      const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) || window.innerWidth < 1024;
+      if (isMobile) {
+        helper.style.display = 'flex';
+      }
+    }
   },
 
   stopConfetti() {
